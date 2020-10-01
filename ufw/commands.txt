@@ -1,0 +1,10 @@
+> ufw status
+> ufw enable
+> ufw status verbose
+> ufw allow <port>
+> ufw allow from <ip> to any port <port>
+> ufw allow from <subnet> to any port <port> // example subnet: 10.0.1.0/24
+> ufw allow <port-name> // 'ftp' for example
+> ufw status numbered
+> ufw delete <rule-number>
+> ufw reset

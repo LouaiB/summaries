@@ -1,0 +1,29 @@
+> sudo apt install certbot
+> certbot certonly --standalone -d <domain-name>
+
+You will be prompted to enter your:
+_email
+_agree to ToS
+_willing to share email?
+
+The output will tell you where the certificate is saved.
+BACK UP THE LETSENCRYPT DIRECTORY
+
+------------------------
+Setup in Nginx
+------------------------
+Go to https://ssl-config.mozilla.org/
+Add 443 server after the 80 server.
+Set the variables needed.
+Move what you had in the 80 server into the 443 server (bottom of it).
+Make 80 redirect to 443 (snippet should be included in the generated result)
+
+------------------------
+SSL Renewal
+------------------------
+> certbot renew
+> systemctl reload nginx
+
+BACKUP AGAIN
+
+Tip: set up a cronjob to do this every few months for you.

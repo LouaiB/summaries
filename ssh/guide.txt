@@ -1,0 +1,28 @@
+Generate SSH key:
+> ssh-keygen -t rsa
+
+Location to use: ~/.ssh/
+Public key is extensioned with '.pub', private isn't extensioned with anything.
+
+Provide the public ssh key to the server you want to connect to. For a server you manage:
+> cat ~/.ssh/<ssh-key>.pub | ssh louai@x.y.z.t "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized-keys"
+
+Tip: to copy anything:
+> scp ~/move.txt louai@x.y.z.t:<path>
+
+To specify to ssh a new private key to use:
+> ssh-add ~/.ssh/<ssh-private-key>
+
+To connect:
+> ssh louai@x.y.z.t
+
+To exit:
+> exit
+
+-------------------------
+Notes
+-------------------------
+
+Server has to have SSHD (SSH Daemon) installed and running to listen to incoming connections.
+Every user must have their ssh public key in /home/<user>/.ssh/authorized-keys.
+/etc/ssh/sshd_config to config sshd.

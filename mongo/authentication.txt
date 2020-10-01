@@ -1,0 +1,52 @@
+Add User:
+> use reporting
+> db.createUser(
+	  {
+		user: "reportsUser",
+		pwd: passwordPrompt(),  // or cleartext password
+		roles: [
+		   { role: "read", db: "reporting" },
+		   { role: "read", db: "products" },
+		   { role: "read", db: "sales" },
+		   { role: "readWrite", db: "accounts" }
+		]
+	  }
+  )
+  
+Update User:
+> db.updateUser(
+   "<username>",
+   {
+     customData : { <any information> },
+     roles : [
+       { role: "<role>", db: "<database>" } | "<role>",
+       ...
+     ],
+     pwd: passwordPrompt(),      // Or  "<cleartext password>"
+     authenticationRestrictions: [
+        {
+          clientSource: ["<IP>" | "<CIDR range>", ...],
+          serverAddress: ["<IP>", | "<CIDR range>", ...]
+        },
+        ...
+     ],
+     mechanisms: [ "<SCRAM-SHA-1|SCRAM-SHA-256>", ... ],
+     passwordDigestor: "<server|client>"
+   },
+   writeConcern: { <write concern> }
+)
+
+Remove User:
+> db.dropUser("reportUser1", {w: "majority", wtimeout: 5000}) // Second param is optional write concerns
+
+Add Role:
+> db.grantRolesToUser( "<username>", [ <roles> ], { <writeConcern> } )
+
+Remove Role:
+> db.revokeRolesFromUser( "<username>", [ <roles> ], { <writeConcern> } )
+
+---------------------------------
+Connect
+---------------------------------
+
+mongoose.connect("mongodb://<username>:<password>@<host>:<port>/<dbName>", { uri_decode_auth: true, ... }).then(...).catch(...);

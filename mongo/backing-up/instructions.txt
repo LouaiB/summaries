@@ -1,0 +1,6 @@
+Use 'backup.sh' script file. Make sure to replace the variables inside it with the ones unique to your database.
+
+Go to /etc/crontab and add the cronjob that runs this script periodically:
+20 20 	* * *	root	<path>/backup.sh > <path>/log.txt 2>&1
+
+Note: 'path' is the path to the folder the backup script (and log file) is in.

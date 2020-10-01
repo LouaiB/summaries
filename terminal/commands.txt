@@ -1,0 +1,29 @@
+> sudo apt update
+> sudo apt upgrade
+> sudo apt install <app>
+> adduser louai
+> id louai
+> sudo su louai
+> usermod -aG sudo louai
+> sudo systemctl reload sshd
+> sudo systemctl start <service>
+> sudo systemctl stop <service>
+> sudo systemctl reload <service>
+> sudo systemctl restart <service>
+> ls -la
+
+> eval 'ssh-agent-s'
+
+// Basics
+> touch ...
+> mkdir ...
+> mv move-me.txt to-here.txt
+> cp copy-me.txt to-here.txt
+> rm remove-me.txt
+
+//TODO: Zip
+> tar czf i-am-the-zip-file.tar.gz folder-to-zip/
+
+//TODO: Perms
+Change ownership: -R recursive, <user>:<group>
+> sudo chown -R louai:louai

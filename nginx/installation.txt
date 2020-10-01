@@ -1,0 +1,78 @@
+> apt install nginx
+> systemctl start nginx
+> systemctl status nginx
+
+Main config file is in: /etc/nginx/nginx.conf
+Site config file is in: /etc/nginx/sites-enabled/default
+
+Site Config:
+```
+upstream frost-api {
+	server localhost:5001;
+	server localhost:5002;
+	server localhost:5003;
+	server localhost:5004;
+}
+
+
+server {
+	listen 80;
+	listen [::]:80;
+	server_name frost-angular;
+	# root "/home/louaib/Desktop/sandbox/Twitter Replica/api/frost-api/uploads";
+	
+	proxy_set_header Host $http_host;
+	proxy_set_header X-Real-IP $remote_addr;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+
+	location /socket.io/ {
+		proxy_http_version 1.1;
+
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+
+		proxy_pass "http://localhost:4200/socket.io/";
+	}
+
+	location / {
+		proxy_pass "http://localhost:4200/";
+	}
+}
+
+server {
+	listen 5000;
+	listen [::]:5000;
+	server_name frost-api;
+
+	proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+
+	location /socket.io/ {
+                proxy_http_version 1.1;
+
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+
+                proxy_pass "http://localhost:4200/socket.io/";
+        }
+
+
+	location / {
+		proxy_pass "http://frost-api/";
+	}
+
+}
+```
+
+NOTES:
+For every site, add a 'server' object.
+'listen' to set the port to listen to.
+'server_name' set the server name.
+'location' is to set behavior for various route locations in request.
+'proxy_pass' to forward requests to another place.
+'upstream' is for load balancing. Notice how 'proxy_pass' is set to 'http://<upstream-name>/'.
+'proxy_set_header <key> <value>'.
+Make sure to deal with sockets.
